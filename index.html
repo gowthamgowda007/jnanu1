@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ec4899" />
+  <title>A Magical Surprise for You 💖</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Inter + Dancing Script fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Dancing+Script:wght@700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* ============================
+       BASIC STYLES & BACKGROUND
+    ============================ */
+    body {
+      font-family: "Inter", sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 20%, #ffd9ec, #fff0f6, #ffe3f0);
+      background-size: 200% 200%;
+      animation: bgMove 15s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes bgMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* ============================
+       FLOATING HEARTS BACKGROUND
+    ============================ */
+    .heart {
+      position: fixed;
+      bottom: -10px;
+      width: 20px;
+      height: 20px;
+      background: #ec4899;
+      transform: rotate(45deg);
+      animation: floatUp 6s linear infinite;
+      opacity: 0.7;
+    }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ec4899;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+    .heart::after {
+      left: 10px;
+      top: 0;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(45deg) scale(1);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(45deg) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* ============================
+       QUOTE TEXT STYLING
+    ============================ */
+    #quote-text {
+      font-family: "Dancing Script", cursive;
+      font-size: 2rem;
+      color: #be185d;
+      text-shadow: 1px 1px 10px rgba(255, 192, 203, 0.8);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .quote-hidden {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .quote-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .glow {
+      box-shadow: 0 0 25px rgba(236, 72, 153, 0.5);
+    }
+
+    /* Floating animation for the image */
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    /* Buttons subtle pulse */
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.6);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px 10px rgba(236, 72, 153, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(236, 72, 153, 0);
+      }
+    }
+
+    .animate-pulse-soft {
+      animation: pulse 3s infinite;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Floating Hearts Container -->
+  <div id="hearts"></div>
+
+  <div class="text-center max-w-md w-full p-6 z-10 relative">
+    <!-- Surprise Button -->
+    <button
+      id="surprise-button"
+      class="w-full bg-pink-500 text-white font-bold py-6 px-10 rounded-2xl shadow-lg transform transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-pink-300 text-2xl animate-pulse-soft"
+    >
+      Click for a surprise... 💞
+    </button>
+
+    <!-- Surprise Content -->
+    <div id="surprise-content" class="hidden mt-6">
+      <img
+  id="her-picture"
+  src="./Jnanu.jpeg"
+  alt="Jnani’s beautiful picture"
+  class="w-64 h-64 rounded-full mx-auto glow shadow-2xl border-4 border-white object-cover mb-6 animate-[float_4s_ease-in-out_infinite]"
+/>
+
+
+      <div class="bg-white/80 p-6 rounded-2xl shadow-md min-h-[10rem] flex items-center justify-center">
+        <p id="quote-text" class="quote-visible">I love you endlessly 💗</p>
+      </div>
+
+      <button
+        id="next-quote-button"
+        class="mt-6 w-full bg-pink-500 text-white font-bold py-3 px-6 rounded-xl shadow-lg transform transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-pink-300 text-lg"
+      >
+        Get another message 💌
+      </button>
+
+      <button
+        id="reset-button"
+        class="mt-3 w-full bg-white border border-pink-300 text-pink-600 font-bold py-3 px-6 rounded-xl shadow-lg transform transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-pink-300 text-lg"
+      >
+        Reset 💫
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const surpriseButton = document.getElementById("surprise-button");
+    const surpriseContent = document.getElementById("surprise-content");
+    const nextQuoteButton = document.getElementById("next-quote-button");
+    const resetButton = document.getElementById("reset-button");
+    const quoteText = document.getElementById("quote-text");
+    const heartsContainer = document.getElementById("hearts");
+
+    // Romantic chime sound
+    const chime = new Audio(
+      "https://cdn.pixabay.com/download/audio/2023/05/13/audio_43f8c2cc50.mp3?filename=soft-romantic-tone-146722.mp3"
+    );
+
+    // Quotes list
+    const quotes = [
+      "You are the best part of my morning, even before my first cup of coffee. ☀️", "My love for you is like my love for coffee: strong, warm, and essential to my day. ❤️‍🔥", "You're the perfect blend—you have the warmth of a latte and the excitement of a double espresso. ☕", "Forget a 'perfect match,' we're a 'perfect partnership'—building a huge score together. 🤝", "My heart doesn't just beat for you; it hits a century every time you walk into the room. 💯", "In the game of life, you are the perfect catch. 🏆", "My world was just data until you became the one perfect algorithm that gives it all meaning. 💖", "If my heart was a neural network, every single node would be trained to love you. 🧠", "You're my 'perfect fit'—the model I've been training my whole life to find. 🎯", "Our connection feels like more than chance; it's like we were perfectly coded for each other. 🔗", "Forget generative AI—the best thing my life has ever generated is this love with you. 🤖❤️",
+    ];
+
+    let lastQuoteIndex = -1;
+
+    function showNewQuote() {
+      let newIndex;
+      do {
+        newIndex = Math.floor(Math.random() * quotes.length);
+      } while (newIndex === lastQuoteIndex);
+      lastQuoteIndex = newIndex;
+
+      quoteText.classList.remove("quote-visible");
+      quoteText.classList.add("quote-hidden");
+
+      setTimeout(() => {
+        quoteText.textContent = quotes[newIndex];
+        quoteText.classList.remove("quote-hidden");
+        quoteText.classList.add("quote-visible");
+      }, 400);
+    }
+
+    surpriseButton.addEventListener("click", async () => {
+      surpriseButton.classList.add("hidden");
+      surpriseContent.classList.remove("hidden");
+      try {
+        await chime.play();
+      } catch (e) {}
+      showNewQuote();
+    });
+
+    nextQuoteButton.addEventListener("click", showNewQuote);
+
+    resetButton.addEventListener("click", () => {
+      surpriseContent.classList.add("hidden");
+      surpriseButton.classList.remove("hidden");
+    });
+
+    // Floating hearts generator
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 4 + Math.random() * 4 + "s";
+      heart.style.width = heart.style.height = 10 + Math.random() * 20 + "px";
+      heartsContainer.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(createHeart, 400);
+  </script>
+</body>
+</html>
